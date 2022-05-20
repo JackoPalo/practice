@@ -2,6 +2,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var querystring = require('querystring');
 
 function iniciar(enrutar,peticion)
 {
@@ -19,10 +20,35 @@ function iniciar(enrutar,peticion)
         var archivo_accesos = fs.createWriteStream('accesos.txt',{'flags':'a'})
         archivo_accesos.write(ruta + '\n')
 
-        response.writeHead(200,{'Content-Type':'text/html'});
-        response.write(html);
-        response.end();
+        if(request.method == 'POST') {
+            var posData = null;
+            request.setEncoding('utf8');
+           
+            request.on('data', function(data) 
+                {
+                    posData = querystring.parse(data);
+                    html = html.toString();
+                    html = html.replace('{nombre}', posData.nombre);
+                    html = html.replace('{apellido}', posData.apellido);
+                    html = html.replace('{correo}', posData.correo);
+                    html = html.replace('{sugerencia}', posData.sugerencia);
+                    response.writeHead(200,{'Content-Type':'text/html'});
+                    response.write(html);
+                    response.end();
+                }
+            );
 
+        }else
+            {
+            response.writeHead(200,{'Content-Type':'text/html'});
+            response.write(html);
+            response.end();
+            
+
+        }
+           
+
+    
     }
 
     http.createServer(arrancarServidor).listen(3000,'127.0.0.1');

@@ -16,3 +16,14 @@ inicio
 /pagina1
 inicio.html
 /favicon.ico
+inicio.html
+/favicon.ico
+inicio.html
+/favicon.ico
+/salida.html
+inicio.html
+/salida.html
+inicio.html
+/salida.html
+inicio.html
+/salida.html
